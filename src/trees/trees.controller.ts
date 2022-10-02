@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  HttpCode,
 } from '@nestjs/common';
 import { TreesService } from './trees.service';
 import { CreateTreeDto } from './dto/create-tree.dto';
@@ -16,27 +17,28 @@ export class TreesController {
   constructor(private readonly treesService: TreesService) {}
 
   @Post()
-  create(@Body() createTreeDto: CreateTreeDto) {
-    return this.treesService.create(createTreeDto);
+  @HttpCode(200)
+  async create(@Body() createTreeDto: CreateTreeDto) {
+    return await this.treesService.create(createTreeDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.treesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.treesService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTreeDto: UpdateTreeDto) {
+  async update(@Param('id') id: string, @Body() updateTreeDto: UpdateTreeDto) {
     return this.treesService.update(+id, updateTreeDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.treesService.remove(+id);
   }
 }

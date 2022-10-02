@@ -4,23 +4,23 @@ import { UpdateTreeDto } from './dto/update-tree.dto';
 
 @Injectable()
 export class TreesService {
-  create(createTreeDto: CreateTreeDto) {
-    return 'This action adds a new tree';
+  async create(createTreeDto: CreateTreeDto) {
+    return createTreeDto;
   }
 
-  findAll() {
+  async findAll() {
     return `This action returns all trees`;
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return `This action returns a #${id} tree`;
   }
 
-  update(id: number, updateTreeDto: UpdateTreeDto) {
+  async update(id: number, updateTreeDto: UpdateTreeDto) {
     return `This action updates a #${id} tree`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} tree`;
   }
 }
