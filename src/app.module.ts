@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { TreeModule } from './tree/tree.module';
+import { TreesModule } from './trees/trees.module';
 
 @Module({
-  imports: [TreeModule],
+  imports: [TreesModule],
   controllers: [],
   providers: [],
 })

@@ -3,13 +3,13 @@ import { CreateTreeDto } from './dto/create-tree.dto';
 import { UpdateTreeDto } from './dto/update-tree.dto';
 
 @Injectable()
-export class TreeService {
+export class TreesService {
   create(createTreeDto: CreateTreeDto) {
     return 'This action adds a new tree';
   }
 
   findAll() {
-    return `This action returns all tree`;
+    return `This action returns all trees`;
   }
 
   findOne(id: number) {

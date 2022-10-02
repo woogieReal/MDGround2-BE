@@ -7,36 +7,36 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { TreeService } from './tree.service';
+import { TreesService } from './trees.service';
 import { CreateTreeDto } from './dto/create-tree.dto';
 import { UpdateTreeDto } from './dto/update-tree.dto';
 
 @Controller('trees')
-export class TreeController {
-  constructor(private readonly treeService: TreeService) {}
+export class TreesController {
+  constructor(private readonly treesService: TreesService) {}
 
   @Post()
   create(@Body() createTreeDto: CreateTreeDto) {
-    return this.treeService.create(createTreeDto);
+    return this.treesService.create(createTreeDto);
   }
 
   @Get()
   findAll() {
-    return this.treeService.findAll();
+    return this.treesService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.treeService.findOne(+id);
+    return this.treesService.findOne(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTreeDto: UpdateTreeDto) {
-    return this.treeService.update(+id, updateTreeDto);
+    return this.treesService.update(+id, updateTreeDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.treeService.remove(+id);
+    return this.treesService.remove(+id);
   }
 }
