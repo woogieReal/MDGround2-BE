@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   HttpCode,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { TreesService } from './trees.service';
 import { CreateTreeDto } from './dto/create-tree.dto';
@@ -28,17 +29,20 @@ export class TreesController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.treesService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.treesService.findOne(id);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateTreeDto: UpdateTreeDto) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateTreeDto: UpdateTreeDto,
+  ) {
     return this.treesService.update(+id, updateTreeDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id', ParseIntPipe) id: number) {
     return this.treesService.remove(+id);
   }
 }
