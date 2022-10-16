@@ -8,6 +8,7 @@ import {
   Delete,
   HttpCode,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { TreesService } from './trees.service';
 import { CreateTreeDto } from './dto/create-tree.dto';
@@ -24,8 +25,11 @@ export class TreesController {
   }
 
   @Get()
-  async findAll() {
-    return this.treesService.findAll();
+  async findAll(@Query('parent', ParseIntPipe) parent: number) {
+    return this.treesService.findAll({
+      parent: parent,
+      user: 'woogieOnAndOn',
+    });
   }
 
   @Get(':id')

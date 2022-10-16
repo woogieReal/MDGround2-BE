@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTreeDto } from './dto/create-tree.dto';
+import { RetrieveTreeDto } from './dto/retrieve-tree.dto';
 import { UpdateTreeDto } from './dto/update-tree.dto';
 import { Tree } from './entities/tree.entity';
 
@@ -12,14 +13,38 @@ export class TreesService {
   ) {}
 
   async create(createTreeDto: CreateTreeDto) {
-    const tree = this.treesRepository.create({ ...createTreeDto, id: 1 });
+    const { maxTreeId } = await this.treesRepository
+      .createQueryBuilder('tr')
+      .select('MAX(tr.id)', 'maxTreeId')
+      .where('tr.user = :user', { user: createTreeDto.user })
+      .getRawOne();
+
+    const { maxSeq } = await this.treesRepository
+      .createQueryBuilder('tr')
+      .select('COALESCE(MAX(tr.seq), 0)', 'maxSeq')
+      .where('tr.user = :user', { user: createTreeDto.user })
+      .andWhere('tr.parent = :parent', { parent: createTreeDto.parent })
+      .andWhere('tr.type = :type', { type: createTreeDto.type })
+      .andWhere('tr.delete_yn = :delete_yn', { delete_yn: 'N' })
+      .getRawOne();
+
+    const tree = this.treesRepository.create({
+      ...createTreeDto,
+      id: maxTreeId + 1,
+      seq: maxSeq + 1,
+    });
 
     await this.treesRepository.save(tree);
     return tree;
   }
 
-  async findAll() {
-    return await this.treesRepository.find();
+  async findAll(retrieveTreeDto: RetrieveTreeDto) {
+    return await this.treesRepository.find({
+      where: retrieveTreeDto,
+      order: {
+        seq: 'ASC',
+      },
+    });
   }
 
   async findOne(id) {
