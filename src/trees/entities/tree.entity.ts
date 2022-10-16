@@ -1,5 +1,6 @@
-import { BaseEntity, Column, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
+@Entity()
 export class Tree extends BaseEntity {
   @PrimaryColumn()
   user: string;
@@ -10,7 +11,7 @@ export class Tree extends BaseEntity {
   @Column({ enum: [10, 20] })
   type: number;
 
-  @Column({ length: 100 })
+  @Column({ length: 100, default: 'woogieOndAndOn' })
   name: string;
 
   @Column({ type: 'text' })
